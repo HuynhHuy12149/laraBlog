@@ -19,7 +19,9 @@ class Categories extends Component
     protected $listeners =[
         'resetModalForm',
         'deleteCategoryAction',
-        'deleteSubCategoryAction'
+        'deleteSubCategoryAction',
+        'updateCategoryOrdering',
+        'updateSubCategoryOrdering'
     ];
     
 
@@ -192,6 +194,30 @@ class Categories extends Component
         }else {
             $subcategory->delete();
             $this->showToastr('SubCategory has been successfully deleted','info');
+        }
+    }
+    
+
+    public function updateCategoryOrdering($positions){
+        foreach($positions as $position){
+            $index = $position[0];
+            $newPosition = $position[1];
+            Category::where('id',$index)->update([
+                'ordering'=>$newPosition,
+            ]);
+            $this->showToastr('Catgories ordering have been successfully updated','success');
+        }
+    }
+
+    public function updateSubCategoryOrdering($positions){
+       
+        foreach($positions as $position){
+            $index = $position[0];
+            $newPosition = $position[1];
+            SubCategory::where('id',$index)->update([
+                'ordering'=>$newPosition,
+            ]);
+            $this->showToastr('Catgories ordering have been successfully updated','success');
         }
     }
     public function showToastr($message,$type){

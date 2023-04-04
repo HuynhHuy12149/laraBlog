@@ -25,11 +25,11 @@
                               <th class="w-1"></th>
                             </tr>
                           </thead>
-                          <tbody>
+                          <tbody id="sortable_category">
                             @forelse ($categories as $category)
                                 
                            
-                            <tr>
+                            <tr data-index="{{ $category->id }}" data-ordering="{{ $category->ordering }}">
                               <td  style="font-size: 13px ">{{ $category->category_name }}</td>
                               
                               <td class="text-muted" style="font-size: 13px ">
@@ -79,9 +79,9 @@
                               <th class="w-1"></th>
                             </tr>
                           </thead>
-                          <tbody>
+                          <tbody id="sortable_subcategory">
                            @forelse ($subcategories as $subcategory)
-                            <tr>
+                            <tr data-index="{{ $subcategory->id }}" data-ordering="{{ $subcategory->ordering }}">
                               <td style="font-size: 13px ">{{ $subcategory->subcategory_name }}</td>
                               <td style="font-size: 13px " class="text-muted">
                                 {{-- {{ $subcategory->parentcategory->category_name}} --}}

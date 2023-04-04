@@ -18,7 +18,9 @@ class Post extends Model
         'post_title',
         'post_slug',
         'post_content',
+        'post_tags',
         'featured_image',
+        
     ];
 
     public function sluggable(): array
@@ -35,6 +37,14 @@ class Post extends Model
         $query ->where(function($query) use ($term){
             $query->where('post_title','like',$term);
         });
+    }
+
+    public function subcategory(){
+        return $this->belongsTo(Subcategory::class,'category_id','id');
+    }
+
+    public function author(){
+        return $this->belongsTo(User::class,'author_id','id');
     }
 
 }

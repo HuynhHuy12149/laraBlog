@@ -214,7 +214,9 @@ class AuthorController extends Controller
                     'post_title' => $request->post_title,
                     'post_slug' => Str::slug($request->post_title),
                     'post_content' => $request->post_content,
+                    'post_tags'=> $request->post_tags,
                     'featured_image' => $new_filename,
+                    
                 ]);
                 if($post){
                     return response()->json(['status'=>1,'msg'=>'New post has been successfully created']);
@@ -295,6 +297,7 @@ class AuthorController extends Controller
                 $post->post_content = $request->post_content;
                 $post->post_title = $request->post_title;
                 $post->featured_image = $new_filename;
+                $post->post_tags =$request->post_tags;
                 $save = $post->save();
                 if($save){
                     return response()->json(['status'=>1,'msg'=>'Post has been successfully updated']);
@@ -315,6 +318,7 @@ class AuthorController extends Controller
             $post->post_slug= null;
             $post->post_content = $request->post_content;
             $post->post_title = $request->post_title;
+            $post-> post_tags =$request->post_tags;
 
             $save = $post->save();
             if($save){

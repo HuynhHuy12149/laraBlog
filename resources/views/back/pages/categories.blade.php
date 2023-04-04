@@ -86,5 +86,39 @@
                 }
             });
         });
+
+        $('table tbody#sortable_category').sortable({
+            update:function(event, ui){
+                $(this).children().each(function(index){
+                    if($(this).attr("data-ordering")!=(index+1)){
+                        $(this).attr("data-ordering",(index+1)).addClass("updated");
+                    }
+                });
+                var positions = [];
+                $(".updated").each(function(){
+                    positions.push([$(this).attr("data-index"),$(this).attr("data-ordering")]);
+                    $(this).removeClass("updated");
+                });
+
+                window.livewire.emit("updateCategoryOrdering",positions);
+            }
+        });
+
+        $('table tbody#sortable_subcategory').sortable({
+            update:function(event, ui){
+                $(this).children().each(function(index){
+                    if($(this).attr("data-ordering")!=(index+1)){
+                        $(this).attr("data-ordering",(index+1)).addClass("updated");
+                    }
+                });
+                var positions = [];
+                $(".updated").each(function(){
+                    positions.push([$(this).attr("data-index"),$(this).attr("data-ordering")]);
+                    $(this).removeClass("updated");
+                });
+
+                window.livewire.emit("updateSubCategoryOrdering",positions);
+            }
+        });
     </script>
 @endpush

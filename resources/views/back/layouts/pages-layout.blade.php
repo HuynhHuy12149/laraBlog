@@ -23,6 +23,10 @@
     <link href="/back/dist/css/tabler-vendors.min.css?1674944402" rel="stylesheet"/>
     <link rel="stylesheet" href="/back/dist/libs/ijabo/ijabo.min.css">
     <link rel="stylesheet" href="/back/dist/libs/ijaloCropImg/ijaboCropTool.min.css">
+    <link rel="stylesheet" href="/jquery-ui-1.13.2/jquery-ui.min.css">
+    <link rel="stylesheet" href="/jquery-ui-1.13.2/jquery-ui.structure.min.css">
+    <link rel="stylesheet" href="/jquery-ui-1.13.2/jquery-ui.theme.min.css">
+    <link rel="stylesheet" href="/amsify/amsify.suggestags.css">
     @stack('stylesheets')
     <link href="/back/dist/css/demo.min.css?1674944402" rel="stylesheet"/>
 
@@ -75,11 +79,16 @@
     <script src="/back/dist/libs/jsvectormap/dist/js/jsvectormap.min.js?1674944402" defer></script>
     <script src="/back/dist/libs/jsvectormap/dist/maps/world.js?1674944402" defer></script>
     <script src="/back/dist/libs/jsvectormap/dist/maps/world-merc.js?1674944402" defer></script>
+    <script src="/jquery-ui-1.13.2/jquery-ui.min.js"></script>
+    <script src="/amsify/jquery.amsify.suggestags.js"></script>
+    
     <!-- Tabler Core -->
     <script src="/back/dist/js/tabler.min.js?1674944402" defer></script>
     @stack('scripts')
     @livewireScripts
     <script>
+
+      $('input[name="post_tags"]').amsifySuggestags();
       window.addEventListener('showToastr',function(event){
         toastr.remove();
         if(event.detail.type==='info'){
