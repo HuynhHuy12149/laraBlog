@@ -34,7 +34,7 @@
               <h3 class="m-0 mb-1"><a href="#">{{ $author -> name }}</a></h3>
               <div class="text-muted">{{ $author -> email }}</div>
               <div class="mt-3">
-                <span class="badge bg-purple-lt">{{ $author ->authorType->name }}</span>
+                <span class="badge bg-purple-lt">{{ $author -> authorType->name }}</span>
               </div>
             </div>
             <div class="d-flex">

@@ -195,7 +195,7 @@ class AuthorController extends Controller
             $image_file = "test.png";
             $post_thumbnails_path  = $path.'thumbnails';
             if(!Storage::disk('public')->exists( $post_thumbnails_path)){
-                Storage::disk('public')->makeDirectory(  $post_thumbnails_path, 0755, true, true);
+                Storage::disk('public')->makeDirectory(  $post_thumbnails_path,0755, true, true);
             } 
 
             // tao mot square thumbnails

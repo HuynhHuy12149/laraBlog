@@ -2,11 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use Illuminate\Support\Facades\Auth;
-use App\Models\User; 
 use Livewire\Component;
 
-class AuthorLoginForm extends Component
+class UsersLogin extends Component
 {
     public $login_id,$password,$returnUrl;
 
@@ -42,29 +40,13 @@ class AuthorLoginForm extends Component
 
         }
 
-        $creds=array($fieldType=>$this->login_id,'password'=>$this->password);
-        if(Auth::guard('web')->attempt($creds)){
-            $checkuser = User::where($fieldType,$this->login_id)->first();
-            // dd($checkuser);
-            if($checkuser->blocked == 1){
-                Auth::guard('web')->logout();
-                return redirect()->route('author.login')->with('fail','Your account had been blocked.');
+        
 
-            }else {
-                // return redirect()->route('author.home');
-                if($this->returnUrl != null){
-                    return redirect()->to($this->returnUrl);
-                }else{
-                    redirect()->route('author.home');
-                }
-            }
-        } else{
-            session()->flash('fail','Incorrect email or password');
-        }
-       
+        
     }
+
     public function render()
     {
-        return view('livewire.author-login-form');
+        return view('livewire.users-login');
     }
 }

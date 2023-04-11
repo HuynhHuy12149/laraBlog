@@ -22,6 +22,10 @@ class Authenticate extends Middleware
                 session()->flash('fail','You must sign in first');
                 return route('author.login',['fail'=>true,'returnUrl'=>URL::current()]);
             }
+            if($request->routeIs('*')){
+                session()->flash('fail','You must sign in first');
+                return route('login',['fail'=>true,'returnUrl'=>URL::current()]);
+            }
         }
         return null;
        

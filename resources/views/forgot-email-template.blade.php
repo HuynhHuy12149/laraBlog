@@ -1,2 +1,12 @@
--Hi <b>{{ $name }}</b>
-{!! $body_message !!}
+<div style="width: 600px; margin: 0 auto; " >
+    <div style="text-align: center">
+        <h2> hi, {{ $name }}</h2>
+        <p>You want change passowrd</p>
+        <p>To be able to use the services, please click the button below to change password your account</p>
+   
+        <p>
+            <a href="{{ route('reset-form',['token'=>$token,'email'=>$email ]) }}" style="display: inline-block; background: green;color: #fff;padding: 7px 25px; font-weight: bold">Active Account</a>
+        </p>
+    </div>
+
+</div>

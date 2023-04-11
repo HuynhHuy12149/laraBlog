@@ -15,10 +15,14 @@
 
     <!-- theme meta -->
     <meta name="theme-name" content="reporter" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 
     <!-- # Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link
         href="https://fonts.googleapis.com/css2?family=Neuton:wght@700&family=Work+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet">
@@ -38,8 +42,8 @@
     <main>
         <section class="section">
             <div class="container">
-              @yield('content')
-                
+                @yield('content')
+
             </div>
         </section>
     </main>

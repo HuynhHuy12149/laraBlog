@@ -79,7 +79,7 @@ class Authors extends Component
                 $this->name=$this->email=$this->username=$this->direct_publisher=$this->author_type=null;
                 
                 $this->showToastr('New author has been added to blog','success');
-                $this -> dispatchBrowserEvent('hideSdd_author_modal');
+                $this -> dispatchBrowserEvent('hide_add_author_modal');
             }else{
                 $this->showToastr('Something went wrong','error');
             }
