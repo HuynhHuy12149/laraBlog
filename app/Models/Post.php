@@ -12,7 +12,7 @@ class Post extends Model
     use Sluggable;
 
 
-    protected $fillable = [ 
+    protected $fillable = [
         'author_id',
         'category_id',
         'post_title',
@@ -20,7 +20,7 @@ class Post extends Model
         'post_content',
         'post_tags',
         'featured_image',
-        
+
     ];
 
     public function sluggable(): array
@@ -32,19 +32,30 @@ class Post extends Model
         ];
     }
 
-    public function scopeSearch($query,$term){
+    public function scopeSearch($query, $term)
+    {
         $term = "%$term%";
-        $query ->where(function($query) use ($term){
-            $query->where('post_title','like',$term);
+        $query->where(function ($query) use ($term) {
+            $query->where('post_title', 'like', $term);
         });
     }
 
-    public function subcategory(){
-        return $this->belongsTo(Subcategory::class,'category_id','id');
+    public function subcategory()
+    {
+        return $this->belongsTo(Subcategory::class, 'category_id', 'id');
     }
 
-    public function author(){
-        return $this->belongsTo(User::class,'author_id','id');
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id', 'id');
+    }
+
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'post_id', 'id')
+            ->where('reply_id', '=', 0)
+            ->orderBy('created_at', 'DESC');
     }
 
 }

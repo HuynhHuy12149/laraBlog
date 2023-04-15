@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
+use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +20,11 @@ use App\Http\Controllers\BlogController;
 Route::middleware(['nocache'])->group(function () {
     
     Route::view('/', 'front.pages.home')->name('home');
-    Route::get('/article/{any}', [BlogController::class, 'readPost'])->name('read_post');
-    Route::get('/category/{any}', [BlogController::class, 'categoryPosts'])->name('category_posts');
+    // Route::get('/article/{any}', [BlogController::class, 'readPost'])->name('read_post');
+    Route::match(['get', 'post'], '/article/{any}', [BlogController::class, 'readPost'])->name('read_post');
+
+    Route::get('/category', [BlogController::class, 'categoryPosts'])->name('category_posts');
+    
     Route::get('/posts/tag/{any}', [BlogController::class, 'tagPosts'])->name('tag_posts');
     Route::get('/search', [BlogController::class, 'searchBlog'])->name('search_posts');
     
@@ -40,6 +45,20 @@ Route::middleware(['nocache'])->group(function () {
     Route::post('/reset-form/{token}/{email}',[BlogController::class,'changepassword'])->name('change-password');
     
 });
+// Route::get('/login/facebook', [BlogController::class, 'test'])->name('loginfacebook');
+Route::get('/login/google', [LoginController::class, 'redirectToGoogle'])->name('logingoogle');
+Route::get('/login/google/callback', [LoginController::class, 'handleGoogleCallback']);
+
+
+Route::get('/login/facebook', [LoginController::class, 'redirectToFacebook'])->name('loginfacebook');
+Route::get('/login/facebook/callback', [LoginController::class, 'handleFacebookCallback']);
+
+
+// comment
+
+    Route::post('/comment/{user_id}/{post_id}',[BlogController::class,'comment'])->name('comment');
+
+
 
 
 ?>

@@ -78,6 +78,41 @@
                 </a>
                 
               </div> --}}
+            {{-- comment posts --}}
+
+            <div class="container">
+
+                <h3>Bình Luận</h3>
+                <form role="form" action="" method="post">
+                    @csrf
+                    <legend>Xin chào bạn </legend>
+
+                    <div class="form-group">
+                        <label for="">Nội dung bình luận</label>
+                        <input type="hidden" value="{{ $post->id }}" name="post_id">
+                        <textarea id="comment-content" name="content" class="form-control" placeholder="Nhập nội dung bình luận...."></textarea>
+                        <span class="text-danger" id="text-danger"></span>
+                    </div>
+                    @if (session()->has('user'))
+                        <button type="submit" id="btn-comment" class="btn btn-primary">Gửi bình luận</button>
+                    @else
+                        <button disabled type="submit" id="btn-comment" class="btn btn-primary">Gửi bình luận</button>
+                    @endif
+                    
+                </form>
+                <br>
+                <h3>Các bình luận</h3>
+                <div id="comment">
+
+
+
+                    @include('front.pages.list_comment', ['comments' => $post->comments])
+
+
+                </div>
+            </div>
+
+            {{-- relate post --}}
             @if (count($related_posts) > 0)
                 <div class="widget-list mt-5">
 
@@ -134,26 +169,26 @@
                             </div>
                         </div>
                     @endif
-                    @if (all_tags() != null )
-                    @php
-                        $allsString = all_tags();
-                        $allTagsArray = explode(',',$allsString);
-                    @endphp
+                    @if (all_tags() != null)
+                        @php
+                            $allsString = all_tags();
+                            $allTagsArray = explode(',', $allsString);
+                        @endphp
                         <div class="widget">
                             <h2 class="section-title mb-3">Tags</h2>
                             <div class="widget-body">
                                 <ul class="widget-list">
-                                    @foreach (array_unique( $allTagsArray) as $item)
-                                    <li><a href="{{ route('tag_posts',$item) }}">{{ $item }}</span></a>
-                                    </li>
+                                    @foreach (array_unique($allTagsArray) as $item)
+                                        <li><a href="{{ route('tag_posts', $item) }}">{{ $item }}</span></a>
+                                        </li>
                                     @endforeach
-                                    
-                                    
+
+
                                 </ul>
                             </div>
                         </div>
                     @endif
-                    
+
                 </div>
             </div>
         </div>
@@ -163,6 +198,9 @@
 @push('stylesheets')
     <link rel="stylesheet" href="/share_post/jquery.floating-social-share.min.css">
 @endpush
+@php
+    $user_id = optional(session('user'))['id'] ?? 0;
+@endphp
 @push('scripts')
     <script src="/share_post/jquery.floating-social-share.min.js"></script>
     <script>
@@ -172,6 +210,86 @@
             ],
             text: "Share with: ",
             url: "{{ route('read_post', $post->post_slug) }}"
+        });
+    </script>
+    <script>
+        
+
+        let _commentUrl = '{{ route('comment', [$user_id, $post->id]) }}';
+
+
+
+        var _csrf = '{{ csrf_token() }}';
+        $('#btn-comment').click(function(ev) {
+            ev.preventDefault();
+            let content = $('#comment-content').val();
+
+
+
+            $.ajax({
+                url: _commentUrl,
+                type: 'POST',
+                data: {
+                    content: content,
+
+                    _token: _csrf,
+
+                },
+                success: function(response) {
+
+                    $('#comment-content').val('');
+                    $('#comment').html(response);
+                },
+                error: function(response) {
+                    $('#text-danger').html(response.responseJSON.errors.content[0]);
+
+                }
+
+            });
+        });
+
+        // bắt sự kiện hiện form trả lời bình luận
+        $(document).on('click', '.btn-show-reply-form', function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var content_reply_id = '#content-reply-' + id;
+            var contentReply = $(content_reply_id).val();
+            var form_reply = '.form-reply-' + id;
+            $('.formReply').slideUp();
+            $(form_reply).slideDown();
+            // alert(form_reply);
+        });
+
+        $(document).on('click', '.btn-send-comment-reply', function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var content_reply_id = '#content-reply-' + id;
+            var contentReply = $(content_reply_id).val();
+            var form_reply = '.form-reply-' + id;
+
+
+            // alert(contentReply);
+            $.ajax({
+                url: _commentUrl,
+                type: 'POST',
+                data: {
+                    content: contentReply,
+                    reply_id: id,
+
+                    _token: _csrf,
+
+                },
+                success: function(response) {
+
+                    $('#comment-content').val('');
+                    $('#comment').html(response);
+                },
+                error: function(response) {
+                    $('#text-danger').html(response.responseJSON.errors.content[0]);
+
+                }
+
+            });
         });
     </script>
 @endpush

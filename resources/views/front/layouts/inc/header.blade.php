@@ -15,6 +15,7 @@
             </form>
             <div class="collapse navbar-collapse text-center order-lg-2 order-4" id="navigation">
                 <ul class="navbar-nav mx-auto mt-3 mt-lg-0">
+                   
                     @if(session()->has('user'))
                         <li class="nav-item"> <a class="nav-link" href="#">{{ session('user')['name'] }}</a>
                         </li>
@@ -45,7 +46,8 @@
                             <div class="dropdown-menu">
                                 @foreach (App\Models\SubCategory::where('parent_category', $category->id)->whereHas('posts')->orderBy('ordering', 'asc')->get() as $subcategory)
                                     <a class="dropdown-item"
-                                        href="{{ route('category_posts', $subcategory->slug) }}">{{ $subcategory->subcategory_name }}</a>
+                                    href="{{ route('category_posts',$subcategory->slug) }}"
+                                    >{{ $subcategory->subcategory_name }}</a>
                                 @endforeach
 
                             </div>

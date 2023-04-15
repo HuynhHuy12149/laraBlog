@@ -51,7 +51,20 @@
           <div class="form-footer">
             <button type="submit" class="btn btn-primary w-100">Sign in</button>
           </div>
+          <hr>
+       
       </form>
+      <div class="form-footer "   >
+        <div class="form-footer    " >
+          
+          <a href="{{ route('logingoogle') }}"> <button  class="btn btn-primary w-100">Google</button></a>
+        </div>
+        <div class="form-footer " >
+          
+          <a href="{{ route('loginfacebook') }}"> <button class="btn btn-primary w-100">Facebook</button></a>
+        </div>
+        
+      </div>
         
       </div>
       

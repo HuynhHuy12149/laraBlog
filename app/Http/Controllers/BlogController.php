@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Comment;
 use App\Models\SubCategory;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Crypt;
@@ -171,6 +172,7 @@ class BlogController extends Controller
             if($user->blocked == 0){
                 
                 $request->session()->put('user', [
+                    'id'=> $user->id,
                     'name' => $user->name,
                     'username' => $user->username,
                     'email' => $user->email,
@@ -201,6 +203,7 @@ class BlogController extends Controller
 
 
     }
+    
 
     // logout user
     public function logout()
@@ -399,5 +402,32 @@ class BlogController extends Controller
         return redirect()->route('login');
         
     }
+
+
+    public function comment($user_id,$post_id,Request $request){
+        $request->validate([
+            'content'=>'required',
+        ],[
+            'content.required'=>'Bình luận không được để trống',
+        ]);
+
+        $data =[
+            'user_id'=>$user_id,
+            'post_id'=>$post_id,
+            'content'=>$request->content,
+            'reply_id'=>$request->reply_id ? $request->reply_id : 0,
+        ];
+        if ($comment = Comment::create($data)) {
+            // return response()->json(['status'=>1,'msg'=>'Bình luận thành công']);
+            $comments = Comment::where(['post_id'=>$post_id,'reply_id'=>0])->orderBy('created_at','DESC')->get();
+            return view('front.pages.list_comment',compact('comments'));
+        } else{
+            return response()->json(['status'=>2,'msg'=>'Bình luận thất bại']);
+        }
+
+        
+    }
+
+
 
 }
